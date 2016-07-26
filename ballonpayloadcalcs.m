@@ -18,7 +18,7 @@ AWOSDensity = 2300; %feet
 
 BalloonTemp = 80; %Fahrenheit
 TankData = [2750, 0160, 80, 64; %PSI,PSI,F,F
-            2740, 0150, 80, 67]; %PSI,PSI,F,F
+            2740, 0750, 80, 67]; %PSI,PSI,F,F
 HeMass = HeliumMassCalc(TankData(1,1),TankData(1,2),TankData(1,3),TankData(1,4)) + HeliumMassCalc(TankData(2,1),TankData(2,2),TankData(2,3),TankData(2,4));
 
 Diameter = 10.5:.1:14.5; %meters
@@ -37,13 +37,12 @@ PayloadString = [   3.000   %Balloon 6.62 lbs
                     1.600   %HAB Scope 3.63 lbs
                     0.100   %String 3g per 1.5'
                     0.000   %Additional Margin
-                    HeMass];  %Mass of Helium
-
+                    ];  
+                
 DuctTapeFactor = 1.1; %Weight Margin
-TotalWeight = sum(PayloadString)*DuctTapeFactor*9.80655*0.22480894244; %some safety factor for the weight
+TotalWeight = sum(PayloadString)*DuctTapeFactor*9.80665*0.22480894244; %some safety factor for the weight
 
 %% Function Call Layer
-HeMass = HeliumMassCalc(TankData(1,1),TankData(1,2),TankData(1,3),TankData(1,4)) + HeliumMassCalc(TankData(2,1),TankData(2,2),TankData(2,3),TankData(2,4));
 
 LocalData = [LaunchAlt;LocalTemp;LocalPres;LocalDensity;BalloonTemp;TotalWeight];
 [LocalLift LocalBurst LocalSpeed LocalDelta] = LocalMethod(LocalData,Diameter,HeMass);

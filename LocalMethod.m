@@ -31,7 +31,7 @@ weight_N = Data(6)/0.22480894244; %expecting pounds, converting to Newtons
 
 mass_kg = mass; %expecting kg, no conversion nessisary
 %% Math Layer
-[A1 T1 P1 D1] = StandAtmo1976(0,288.15,101325); %Standard table
+[A1 T1 P1 D1] = StandAtmo1976(0,288.16,101325); %Standard table
 PdT1 = P1./T1;
 [A2 T2 P2 D2] = StandAtmo1976(LaunchAlt_m,Temp_K,Pressure_Pa);
 PdT2 = P2./T2;

@@ -19,7 +19,7 @@ R1 = -1000:stepalt:11000; %Altitude range for 1st thermal region
 L1 = -6.5e-3; %thermal gradiant
 T1 = Temp+L1*(R1-Altat); %tempurature calculation for altitudes
 P1 = Pressure.*((T1)/(Temp)).^-((g0*M)/(R*L1)); %pressure calculation for altitudes
-D1 = Density.*(T1/Temp).^( ((g0*M)/(L1*R)) + 1);
+D1 = Density.*(T1/Temp).^(-((g0*M)/(L1*R)) + 1);
 
 R2 = (11000+stepalt):stepalt:20000; %altitude range for 2nd thermal region
 L2 = 0.0; %thermal gradiant, isothermal region
@@ -31,13 +31,13 @@ R3 = (20000+stepalt):stepalt:32000; %altitude range for 3rd thermal region
 L3 = 1.0e-3; %thermal gradiant
 T3 = T2(end)+L3*(R3-R2(end)); %tempurature calculation for altitudes
 P3 = P2(end)*((T3)/(T2(end))).^(-(g0*M)/(R*L3));
-D3 = Density.*(T3/T2(end)).^( ((g0*M)/(L3*R)) + 1);
+D3 = D2(end).*(T3/T2(end)).^(-((g0*M)/(L3*R)) + 1);
 
 R4 = (32000+stepalt):stepalt:47000; %altitude range for 4th thermal region
 L4 = 2.8e-3; %thermal gradiant
 T4 = T3(end)+L4.*(R4-R3(end)); %tempurature calculation for altitudes
 P4 = P3(end)*((T4)/(T3(end))).^(-(g0*M)/(R*L4));
-D4 = Density.*(T4/T3(end)).^( ((g0*M)/(L4*R)) + 1);
+D4 = D3(end).*(T4/T3(end)).^(-((g0*M)/(L4*R)) + 1);
 
 Alt = [R1'; R2'; R3'; R4'];
 T = [T1'; T2'; T3'; T4'];
