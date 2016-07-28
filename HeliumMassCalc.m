@@ -9,7 +9,7 @@
 function Mass_kg = HeliumMassCalc(PTS,PTE,TTS,TTE)
 
 %Constants
-VolumeTank = 43.61/1000; %Liters to Cubic meters
+VolumeTank = 45.87/1000; %Liters to Cubic meters
 M = 4.002602;
 Rbar = 8314.4598;
 

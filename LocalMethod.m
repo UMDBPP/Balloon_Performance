@@ -2,10 +2,11 @@
 %The function expects a Data vector that contains the following information
 %1 [Launch Altitude;
 %2  Local Tempurature; (F)
-%3  Local Pressure; (mbar)
-%4  Local Density; (ft)
-%5  Balloon Temperature; (F) 
-%6  Weight (lbs)
+%3  Local Dew Point; (F)
+%4  Local Pressure; (mbar)
+%5  Local Density; (ft)
+%6  Balloon Temperature; (F) 
+%7  Weight (lbs)
 %  
 % The next input is a vector for burst diameter in meters
 %
@@ -22,10 +23,11 @@ function [lift alt Speed liftdelta] = LocalMethod(Data,Dburst,mass)
 %% Input Conversion Layer
 LaunchAlt_m = Data(1); %expected in meters, no conversion nessisary
 Temp_K = (Data(2)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
-Pressure_Pa = Data(3)*100; %expecting milibars, converted to Pascals
-DensityAlt_m = Data(4)/3.280839895; %expecting feet, convtered to meters
-BT_K = (Data(5)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
-weight_N = Data(6)/0.22480894244; %expecting pounds, converting to Newtons
+Dewpoint_K = (Data(3)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
+Pressure_Pa = Data(4)*100; %expecting milibars, converted to Pascals
+DensityAlt_m = Data(5)/3.280839895; %expecting feet, convtered to meters
+BT_K = (Data(6)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
+weight_N = Data(7)/0.22480894244; %expecting pounds, converting to Newtons
 
 %Dburst = Dburst; %expected in meters, no conversion nessisary
 
@@ -33,20 +35,35 @@ mass_kg = mass; %expecting kg, no conversion nessisary
 %% Math Layer
 [A1 T1 P1 D1] = StandAtmo1976(0,288.16,101325); %Standard table
 PdT1 = P1./T1;
-[A2 T2 P2 D2] = StandAtmo1976(LaunchAlt_m,Temp_K,Pressure_Pa);
+[A2 T2 P2 D2] = CustomStandAtmo1976(LaunchAlt_m,Temp_K,Pressure_Pa);
 PdT2 = P2./T2;
 g0 = 9.80665; %m/s^2
 MolarHelium = 4.002602;
 MolarAir = 28.9645;
+MolarWater = 18.01528;
 Rbar = 8314.4598;
-
 
 %lift calculation
 pHe = (Pressure_Pa.*MolarHelium)./(BT_K.*Rbar); %M for He and R value
-pAir(1,1) = interp1(A1,D1,DensityAlt_m); %Density Altitude uses humidity, which is best
-pAir(2,1) = interp1(A2,D2,DensityAlt_m); %Pulling out density from custom table
-%Note: the air density from custom table is the same as calculating the
-%density from the conitions
+%pAir(1,1) = interp1(A1,D1,DensityAlt_m); %Density Altitude uses humidity, which is best
+%Herman Wobus Equation
+Dewpoint_C = Dewpoint_K-273.15;
+eso = 6.1078;
+c0 = 0.99999683;
+c1 = -0.90826951e-2;
+c2 = 0.78736169e-4;
+c3 = -0.61117958e-6;
+c4 = 0.43884187e-8;
+c5 = -0.29883885e-10;
+c6 = 0.21874425e-12;
+c7 = -0.17892321e-14;
+c8 = 0.11112018e-16;
+c9 = -0.30994571e-19;
+p = c0 + Dewpoint_C*(c1 + Dewpoint_C*(c2 + Dewpoint_C*(c3 + Dewpoint_C*(c4 + Dewpoint_C*(c5 + Dewpoint_C*(c6 + Dewpoint_C*(c7 + Dewpoint_C*(c8 + Dewpoint_C*(c9) ) ) ) ) ) ) ) );
+Pwater_Pa = (eso / p^8)*100;
+Pdryair_Pa  = Pressure_Pa - Pwater_Pa;
+pAir(1,1) = ( (Pdryair_Pa / (Rbar/MolarAir * Temp_K)) + (Pwater_Pa / (Rbar/MolarWater * Temp_K)) );
+pAir(2,1) = Pressure_Pa*MolarAir/( Temp_K*Rbar); %from Conditions
 
 Pressure_Pa = [Pressure_Pa;Pressure_Pa];
 

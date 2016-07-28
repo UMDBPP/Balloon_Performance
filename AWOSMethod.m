@@ -2,10 +2,11 @@
 %The function expects a Data vector that contains the following information
 %1 [Launch Altitude;
 %2  AWOS Tempurature; (C)
-%3  AWOS Pressure; (inHg)
-%4  AWOS Density Altitude
-%5  Balloon Temperature; (F)
-%6  Weight (lbs)
+%3  AWOS Dew Point; (C)
+%4  AWOS Pressure; (inHg)
+%5  AWOS Density Altitude
+%6  Balloon Temperature; (F)
+%7  Weight (lbs)
 %  
 % The next input is a vector for burst diameter in meters (Dburst)
 %
@@ -21,10 +22,11 @@ function [lift alt Speed liftdelta] = AWOSMethod(Data,Dburst,mass)
 %% Input Conversion Layer
 LaunchAlt_m = Data(1); %expected in meters, no conversion nessisary
 Temp_K = Data(2)+273.15; %expecting Celcius, converting to Kelvin
-Pressure_Pa = Data(3)*3386.3886667; %expecting inches of mercury, converted to Pascals
-DensityAlt_m = Data(4)/3.280839895; %expecting feet, convtered to meters
-BT_K = (Data(5)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
-weight_N = Data(6)/0.22480894244; %expecting pounds, converting to newtons
+Dewpoint_K = Data(3)+273.15;
+Pressure_Pa = Data(4)*3386.3886667; %expecting inches of mercury, converted to Pascals
+DensityAlt_m = Data(5)/3.280839895; %expecting feet, convtered to meters
+BT_K = (Data(6)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
+weight_N = Data(7)/0.22480894244; %expecting pounds, converting to newtons
 
 %Dburst = Dburst; %expected in meters, no conversion nessisary
 
@@ -32,11 +34,12 @@ mass_kg = mass; %expecting kg, no conversion nessisary
 %% Math Layer
 [A1 T1 P1 D1] =StandAtmo1976(0,288.16,101325); %Standard table
 PdT1 = P1./T1;
-[A2 T2 P2 D2] = StandAtmo1976(0,Temp_K,Pressure_Pa); %Built from ASOS Data
+[A2 T2 P2 D2] = CustomStandAtmo1976(0,Temp_K,Pressure_Pa); %Built from ASOS Data
 PdT2 = P2./T2;
 g0 = 9.80665;
 MolarHelium = 4.002602;
 MolarAir = 28.9645;
+MolarWater = 18.01528;
 Rbar = 8314.4598;
 
 % I am at LaunchAlt elevation and the AWOS pressure reading is Pressure
@@ -49,10 +52,27 @@ PressureAt_Pa(2,1) = interp1(A2,P2,LaunchAlt_m);
 
 %lift calculation
 pHe = (PressureAt_Pa.*MolarHelium)./(BT_K.*Rbar); %M for He and R value
-%pAir = PressureAt_Pa*MolarAir/( Temp_K*Rbar) %from information
-%pAir = interp1(A,D,LaunchAlt_m) %from table
-pAir(1,1) = interp1(A1,D1,DensityAlt_m); %Pulling out density based on Altitude Density
-pAir(2,1) = interp1(A1,D1,DensityAlt_m);
+%Herman Wobus Equation
+Dewpoint_C = Dewpoint_K-273.15;
+eso = 6.1078;
+c0 = 0.99999683;
+c1 = -0.90826951e-2;
+c2 = 0.78736169e-4;
+c3 = -0.61117958e-6;
+c4 = 0.43884187e-8;
+c5 = -0.29883885e-10;
+c6 = 0.21874425e-12;
+c7 = -0.17892321e-14;
+c8 = 0.11112018e-16;
+c9 = -0.30994571e-19;
+p = c0 + Dewpoint_C*(c1 + Dewpoint_C*(c2 + Dewpoint_C*(c3 + Dewpoint_C*(c4 + Dewpoint_C*(c5 + Dewpoint_C*(c6 + Dewpoint_C*(c7 + Dewpoint_C*(c8 + Dewpoint_C*(c9) ) ) ) ) ) ) ) );
+Pwater_Pa = (eso / p^8)*100;
+Pdryair_Pa  = PressureAt_Pa - Pwater_Pa;
+pAir = ( (Pdryair_Pa / (Rbar/MolarAir * Temp_K)) + (Pwater_Pa / (Rbar/MolarWater * Temp_K)) );
+
+%pAir = PressureAt_Pa.*MolarAir./(Temp_K.*Rbar); %from information
+%pAir(1,1) = interp1(A1,D1,DensityAlt_m); %Pulling out density based on Altitude Density
+%pAir(2,1) = interp1(A1,D1,DensityAlt_m);
 BV = BT_K./PressureAt_Pa*mass_kg*(Rbar/MolarHelium); %using temp and press to get volume
 lift = BV.*(pAir-pHe)*g0; 
 

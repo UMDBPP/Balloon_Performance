@@ -1,4 +1,4 @@
-%Standard Atmosphere 1976 Table
+%Custom Standard Atmosphere 1976 Table
 %Accepts the altitude you're at (in meters), the temperature (kelvin, used
 %in calculations), and pressure (Pascals)
 %at the altitude you indicated, and generates a standard atmosphere table
@@ -7,14 +7,14 @@
 %Stops at 47 km in altitude. 
 %The altitude indicated (you are at) must be below 11 km
 %WARNING Density function shows significant bias
-function [Alt T P D] = StandAtmo1976(Altat,Temp,Pressure)
+function [Alt T P D] = CustomStandAtmo1976(Altat,Temp,Pressure)
 
 g0 = 9.80665;  %Geopotential Acceleration
-M = 28.9644; %molecular mass of air 28.9645 for modern data
-R = 8314.32; %SI R value 8314.459848 for modern data
+M = 28.9645; %molecular mass of air 28.9645 for modern data
+R = 8314.459848; %SI R value 8314.459848 for modern data
 stepalt=100; %step size for the tables. 
 
-Density = 1.225;%(Pressure*M)/(Temp*R); %Calculating air denisty based on ideal gas law
+Density = (Pressure*M)/(Temp*R); %Calculating air denisty based on ideal gas law
 
 R1 = -1000:stepalt:11000; %Altitude range for 1st thermal region
 L1 = -6.5e-3; %thermal gradiant
