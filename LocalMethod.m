@@ -33,7 +33,7 @@ weight_N = Data(7)/0.22480894244; %expecting pounds, converting to Newtons
 
 mass_kg = mass; %expecting kg, no conversion nessisary
 %% Math Layer
-[A1 T1 P1 D1] = StandAtmo1976(0,288.16,101325); %Standard table
+[A1 T1 P1 D1] = StandAtmo1976(0,288.15,101325); %Standard table
 PdT1 = P1./T1;
 [A2 T2 P2 D2] = CustomStandAtmo1976(LaunchAlt_m,Temp_K,Pressure_Pa);
 PdT2 = P2./T2;
@@ -46,23 +46,7 @@ Rbar = 8314.4598;
 %lift calculation
 pHe = (Pressure_Pa.*MolarHelium)./(BT_K.*Rbar); %M for He and R value
 %pAir(1,1) = interp1(A1,D1,DensityAlt_m); %Density Altitude uses humidity, which is best
-%Herman Wobus Equation
-Dewpoint_C = Dewpoint_K-273.15;
-eso = 6.1078;
-c0 = 0.99999683;
-c1 = -0.90826951e-2;
-c2 = 0.78736169e-4;
-c3 = -0.61117958e-6;
-c4 = 0.43884187e-8;
-c5 = -0.29883885e-10;
-c6 = 0.21874425e-12;
-c7 = -0.17892321e-14;
-c8 = 0.11112018e-16;
-c9 = -0.30994571e-19;
-p = c0 + Dewpoint_C*(c1 + Dewpoint_C*(c2 + Dewpoint_C*(c3 + Dewpoint_C*(c4 + Dewpoint_C*(c5 + Dewpoint_C*(c6 + Dewpoint_C*(c7 + Dewpoint_C*(c8 + Dewpoint_C*(c9) ) ) ) ) ) ) ) );
-Pwater_Pa = (eso / p^8)*100;
-Pdryair_Pa  = Pressure_Pa - Pwater_Pa;
-pAir(1,1) = ( (Pdryair_Pa / (Rbar/MolarAir * Temp_K)) + (Pwater_Pa / (Rbar/MolarWater * Temp_K)) );
+pAir(1,1) = MoistDensity(Temp_K,Dewpoint_K,Pressure_Pa);
 pAir(2,1) = Pressure_Pa*MolarAir/( Temp_K*Rbar); %from Conditions
 
 Pressure_Pa = [Pressure_Pa;Pressure_Pa];

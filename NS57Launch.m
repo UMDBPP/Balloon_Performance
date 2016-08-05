@@ -1,6 +1,6 @@
-%Burst at 000,000ft
+%Burst at 102,800ft
 %Using a 3000g balloon 
-%Diameter: 00.00 meters approx.
+%Diameter: 11.50 meters approx.
 clear all
 close all
 %% Data Input Layer 
@@ -8,21 +8,21 @@ close all
 
 LaunchAlt = 180; %meters
 
-LocalTemp = 79.00; %Fahrenheit 78 Dew Point
-LocalDewPoint = 78;
-LocalPres = 995.10; %mbar
-LocalDensity = 1900; %feet
+LocalTemp = 75.80; %Fahrenheit
+LocalDewPoint = 68.77;
+LocalPres = 991.60; %mbar
+LocalDensity = 2140; %feet
 
-AWOSTemp = 27; %Celcius %17 dew point
-AWOSDewPoint = 17;
-AWOSPres = 30.01; %inHg
-AWOSDensity = 2200; %feet
+AWOSTemp = 23; %Celcius 
+AWOSDewPoint = 21;
+AWOSPres = 29.97; %inHg
+AWOSDensity = 1800; %feet
 
-BalloonTemp = 80; %Fahrenheit
-TankData = [2640, 0100, 70, 64; %PSI,PSI,F,F
-            2640, 1200, 70, 64]; %PSI,PSI,F,F
+BalloonTemp = 75.3; %Fahrenheit
+TankData = [2750, 0100, 75.5, 53.2; %PSI,PSI,F,F
+            1600, 0050, 74.5, 57.3]; %PSI,PSI,F,F
 HeMass = HeliumMassCalc(TankData(1,1),TankData(1,2),TankData(1,3),TankData(1,4)) + HeliumMassCalc(TankData(2,1),TankData(2,2),TankData(2,3),TankData(2,4));
-
+HeMass = 1.90;
 
 Diameter = 10.5:.1:14.5; %meters
 

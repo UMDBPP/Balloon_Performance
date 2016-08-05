@@ -14,7 +14,7 @@ LocalDensity = 2400; %feet
 
 AWOSTemp = 27; %Celcius %20 dew point
 AWOSPres = 29.98; %inHg
-AWOSDensity = 2300; %feet
+AWOSDensity = 1900; %feet
 
 BalloonTemp = 80; %Fahrenheit
 TankData = [2750, 0160, 80, 64; %PSI,PSI,F,F
