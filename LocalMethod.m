@@ -4,9 +4,8 @@
 %2  Local Tempurature; (F)
 %3  Local Dew Point; (F)
 %4  Local Pressure; (mbar)
-%5  Local Density; (ft)
-%6  Balloon Temperature; (F) 
-%7  Weight (lbs)
+%5  Balloon Temperature; (F) 
+%6  Weight (lbs)
 %  
 % The next input is a vector for burst diameter in meters
 %
@@ -25,9 +24,8 @@ LaunchAlt_m = Data(1); %expected in meters, no conversion nessisary
 Temp_K = (Data(2)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
 Dewpoint_K = (Data(3)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
 Pressure_Pa = Data(4)*100; %expecting milibars, converted to Pascals
-DensityAlt_m = Data(5)/3.280839895; %expecting feet, convtered to meters
-BT_K = (Data(6)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
-weight_N = Data(7)/0.22480894244; %expecting pounds, converting to Newtons
+BT_K = (Data(5)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
+payloadmass_kg = Data(6); %expecting kg no converting needed
 
 %Dburst = Dburst; %expected in meters, no conversion nessisary
 
@@ -35,13 +33,15 @@ mass_kg = mass; %expecting kg, no conversion nessisary
 %% Math Layer
 [A1 T1 P1 D1] = StandAtmo1976(0,288.15,101325); %Standard table
 PdT1 = P1./T1;
-[A2 T2 P2 D2] = CustomStandAtmo1976(LaunchAlt_m,Temp_K,Pressure_Pa);
+[A2 T2 P2 D2] = CustomStandAtmo1976(LaunchAlt_m,Temp_K,Dewpoint_K,Pressure_Pa);
 PdT2 = P2./T2;
 g0 = 9.80665; %m/s^2
 MolarHelium = 4.002602;
 MolarAir = 28.9645;
 MolarWater = 18.01528;
 Rbar = 8314.4598;
+
+weight_N = payloadmass_kg*g0;
 
 %lift calculation
 pHe = (Pressure_Pa.*MolarHelium)./(BT_K.*Rbar); %M for He and R value
