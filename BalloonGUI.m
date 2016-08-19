@@ -634,7 +634,7 @@ AWOSData = [handles.Data.LaunchAlt;handles.Data.AWOSTemp;handles.Data.AWOSDewPoi
 [AWOSLift AWOSBurst AWOSSpeed AWOSDelta] = AWOSMethod(AWOSData,Diameter,handles.Data.HeliumMass);
 
 %Creating the Data Vecotr for LocalMethod
-LocalData = [handles.Data.LaunchAlt;handles.Data.AWOSTemp;handles.Data.AWOSDewPoint;handles.Data.LocalPress;handles.Data.BalloonTemp;TotalMass];
+LocalData = [handles.Data.LaunchAlt;handles.Data.LocalTemp;handles.Data.LocalDewPoint;handles.Data.LocalPress;handles.Data.BalloonTemp;TotalMass];
 %Running LocalMethod
 [LocalLift LocalBurst LocalSpeed LocalDelta] = LocalMethod(LocalData,Diameter,handles.Data.HeliumMass);
 
