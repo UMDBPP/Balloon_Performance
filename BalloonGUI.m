@@ -55,6 +55,52 @@ function BalloonGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for BalloonGUI
 handles.output = hObject;
 
+%Intial data
+handles.Data.DuctTapeFactor = 1.1;
+set(handles.DuctTapeFactor, 'String', handles.Data.DuctTapeFactor)
+
+handles.Data.PayloadMass = 8.500;
+set(handles.PayloadMass, 'String', handles.Data.PayloadMass)
+
+handles.Data.HeliumMass = 2.47;
+set(handles.HeliumMass, 'String', handles.Data.HeliumMass)
+
+handles.Data.LocalTemp = 69.8;
+set(handles.LocalTemp, 'String', handles.Data.LocalTemp)
+
+handles.Data.LocalDewPoint = 59;
+set(handles.LocalDewPoint, 'String', handles.Data.LocalDewPoint)
+
+handles.Data.LocalPress = 1013.25;
+set(handles.LocalPress, 'String', handles.Data.LocalPress)
+
+handles.Data.AWOSTemp = 21;
+set(handles.AWOSTemp, 'String', handles.Data.AWOSTemp)
+
+handles.Data.AWOSDewPoint = 15;
+set(handles.AWOSDewPoint, 'String', handles.Data.AWOSDewPoint)
+
+handles.Data.AWOSPress = 29.92;
+set(handles.AWOSPress, 'String', handles.Data.AWOSPress)
+
+handles.Data.RangeStart = 10.5;
+set(handles.RangeStart, 'String', handles.Data.RangeStart)
+
+handles.Data.RangeStep = 0.1;
+set(handles.RangeStep, 'String', handles.Data.RangeStep)
+
+handles.Data.RangeEnd = 14.5;
+set(handles.RangeEnd, 'String', handles.Data.RangeEnd)
+
+handles.Data.LaunchAlt = 0.00;
+set(handles.LaunchAlt, 'String', handles.Data.LaunchAlt)
+
+handles.Data.BalloonTemp = 75;
+set(handles.BalloonTemp, 'String', handles.Data.BalloonTemp)
+
+handles.Data.Tank1 = 1.2408;
+handles.Data.Tank2 = 1.2408;
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -89,8 +135,8 @@ if isnan(DuctTapeFactor)
 end
 
 % Save the value
-handles.DuctTapeFactor = DuctTapeFactor;
-guidata(hObject,handles)
+data.Data.DuctTapeFactor = DuctTapeFactor;
+guidata(hObject,data)
 
 % --- Executes during object creation, after setting all properties.
 function DuctTapeFactor_CreateFcn(hObject, eventdata, handles)
@@ -119,8 +165,8 @@ if isnan(PayloadMass)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.PayloadMass = PayloadMass;
+% Save the new value
+handles.Data.PayloadMass = PayloadMass;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -150,8 +196,8 @@ if isnan(HeliumMass)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.HeliumMass = HeliumMass;
+% Save the new value
+handles.Data.HeliumMass = HeliumMass;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -181,8 +227,8 @@ if isnan(LocalTemp)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.LocalTemp = LocalTemp;
+% Save the new value
+handles.Data.LocalTemp = LocalTemp;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -212,8 +258,8 @@ if isnan(LocalDewPoint)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.LocalDewPoint = LocalDewPoint;
+% Save the new value
+handles.Data.LocalDewPoint = LocalDewPoint;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -243,8 +289,8 @@ if isnan(LocalPress)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.LocalPress = LocalPress;
+% Save the new value
+handles.Data.LocalPress = LocalPress;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -274,8 +320,8 @@ if isnan(AWOSTemp)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.AWOSTemp = AWOSTemp;
+% Save the new value
+handles.Data.AWOSTemp = AWOSTemp;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -305,8 +351,8 @@ if isnan(AWOSDewPoint)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.AWOSDewPoint = AWOSDewPoint;
+% Save the new value
+handles.Data.AWOSDewPoint = AWOSDewPoint;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -336,8 +382,8 @@ if isnan(AWOSPress)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.AWOSPress = AWOSPress;
+% Save the new value
+handles.Data.AWOSPress = AWOSPress;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -367,8 +413,8 @@ if isnan(RangeStart)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.RangeStart = RangeStart;
+% Save the new value
+handles.Data.RangeStart = RangeStart;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -398,8 +444,8 @@ if isnan(RangeStep)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.RangeStep = RangeStep;
+% Save the new value
+handles.Data.RangeStep = RangeStep;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -429,8 +475,8 @@ if isnan(RangeEnd)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.RangeEnd = RangeEnd;
+% Save the new value
+handles.Data.RangeEnd = RangeEnd;
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -486,8 +532,8 @@ if isnan(LaunchAlt)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.LaunchAlt = LaunchAlt;
+% Save the new value
+handles.Data.LaunchAlt = LaunchAlt;
 guidata(hObject,handles)
 
 
@@ -518,8 +564,8 @@ if isnan(BalloonTemp)
     errordlg('Input must be a number','Error');
 end
 
-% Save the new density value
-handles.BalloonTemp = BalloonTemp;
+% Save the new value
+handles.Data.BalloonTemp = BalloonTemp;
 guidata(hObject,handles)
 
 
@@ -550,7 +596,7 @@ function Tank1_CellEditCallback(hObject, eventdata, handles)
 
 data = get(hObject, 'data');
 TankMass = HeliumMassCalc(data(1,1),data(1,2),data(2,1),data(2,2));
-handles.Tank1 = TankMass;
+handles.Data.Tank1 = TankMass;
 guidata(hObject,handles)
 
 % --- Executes when entered data in editable cell(s) in Tank2.
@@ -566,7 +612,7 @@ function Tank2_CellEditCallback(hObject, eventdata, handles)
 
 data = get(hObject, 'data');
 TankMass = HeliumMassCalc(data(1,1),data(1,2),data(2,1),data(2,2));
-handles.Tank2 = TankMass;
+handles.Data.Tank2 = TankMass;
 guidata(hObject,handles)
 
 % --- Executes on button press in RunCalcs.
@@ -576,21 +622,28 @@ function RunCalcs_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-LaunchAlt = handles.LaunchAlt;
-Diameter = handles.RangeStart:handles.RangeStep:handles.RangeEnd;
-HeMass = handles.HeliumMass;
-BalloonTemp = handles.BalloonTemp;
-TotalMass = handles.PayloadMass * handles.DuctTapeFactor;
-AWOSData = [LaunchAlt;handles.AWOSTemp;handles.AWOSDewPoint;handles.AWOSPress;BalloonTemp;TotalMass];
-[AWOSLift AWOSBurst AWOSSpeed AWOSDelta] = AWOSMethod(AWOSData,Diameter,HeMass);
-LocalData = [LaunchAlt;handles.AWOSTemp;handles.AWOSDewPoint;handles.LocalPress;BalloonTemp;TotalMass];
-[LocalLift LocalBurst LocalSpeed LocalDelta] = LocalMethod(LocalData,Diameter,HeMass);
+%Creating the Diameter Range
+Diameter = handles.Data.RangeStart:handles.Data.RangeStep:handles.Data.RangeEnd;
 
-Weight = [handles.PayloadMass;TotalMass]*2.2046226218;
+%Creating the Mass with the safety factor
+TotalMass = handles.Data.PayloadMass * handles.Data.DuctTapeFactor;
 
-handles.AWOSBurst = AWOSBurst;
-handles.LocalBurst = LocalBurst;
+%Creating the Data Vector for AWOSMethod
+AWOSData = [handles.Data.LaunchAlt;handles.Data.AWOSTemp;handles.Data.AWOSDewPoint;handles.Data.AWOSPress;handles.Data.BalloonTemp;TotalMass];
+%Running AWOSMethod
+[AWOSLift AWOSBurst AWOSSpeed AWOSDelta] = AWOSMethod(AWOSData,Diameter,handles.Data.HeliumMass);
 
+%Creating the Data Vecotr for LocalMethod
+LocalData = [handles.Data.LaunchAlt;handles.Data.AWOSTemp;handles.Data.AWOSDewPoint;handles.Data.LocalPress;handles.Data.BalloonTemp;TotalMass];
+%Running LocalMethod
+[LocalLift LocalBurst LocalSpeed LocalDelta] = LocalMethod(LocalData,Diameter,handles.Data.HeliumMass);
+
+Weight = [handles.Data.PayloadMass;TotalMass]*2.2046226218;%Converting to pounds for the weight to display
+
+handles.Data.AWOSBurst = AWOSBurst; %Passing out data for the graph
+handles.Data.LocalBurst = LocalBurst; %Passing out data for the graph
+
+%Putting the selected data into the table for display
 set(handles.Lift,'data',[AWOSLift, LocalLift])
 set(handles.Delta,'data',[AWOSDelta, LocalDelta])
 set(handles.Speed,'data',[AWOSSpeed, LocalSpeed])
@@ -604,9 +657,9 @@ function GenPlots_Callback(hObject, eventdata, handles)
 % hObject    handle to GenPlots (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-Diameter = handles.RangeStart:handles.RangeStep:handles.RangeEnd;
-AWOSBurst = handles.AWOSBurst;
-LocalBurst = handles.LocalBurst;
+Diameter = handles.Data.RangeStart:handles.Data.RangeStep:handles.Data.RangeEnd;
+AWOSBurst = handles.Data.AWOSBurst;
+LocalBurst = handles.Data.LocalBurst;
 
 axes(handles.FeetAltDiameter)
 cla;
@@ -642,8 +695,8 @@ function HeliumTankCalc_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-TankMass1 = handles.Tank1;
-TankMass2 = handles.Tank2;
+TankMass1 = handles.Data.Tank1;
+TankMass2 = handles.Data.Tank2;
 HeliumTankMass = TankMass1 + TankMass2;
 set(handles.HeliumTankMass, 'String', HeliumTankMass )
 
