@@ -16,6 +16,9 @@
 % the speed is predicted ascent rate at launch altitiude.
 % Lift, Speed, and DeltaLift give the "Standard" Value First, Followed by
 % the "Custom" Value
+%
+%Depedencies:
+% StandAtmo1976, CustomStandAtmo1976, MoistDensity
 
 function [lift alt Speed liftdelta] = AWOSMethod(Data,Dburst,mass)
 %% Input Conversion Layer

@@ -7,6 +7,7 @@
 %Stops at 47 km in altitude. 
 %The altitude indicated (you are at) must be below 11 km
 %WARNING Density function shows significant error
+%Dependecy: MoistDensity
 function [Alt T P D] = CustomStandAtmo1976(Altat,Temp,Dew,Pressure)
 
 g0 = 9.80665;  %Geopotential Acceleration
