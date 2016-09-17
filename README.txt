@@ -57,3 +57,8 @@ use those. Commonly, a cell phone with barometer should be used. I use a
 cell phone and it's app to get pressure, temperature, and dewpoint.
 
 Payload Weight is given in pounds
+
+The Burst Diameter is dependent on the kind of balloon.
+1600g seem to burst at 10.5, but can exceed performance and be just short of 11m
+2000g are predicted to burst between 10.5m to 11.25m
+3000g are predicted to burst at 12m, but actually seem to burst at 11.5m
