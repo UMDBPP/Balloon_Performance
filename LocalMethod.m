@@ -73,9 +73,9 @@ end
 liftdelta = lift-weight_N;
 %A lot of other preditiction programs seems to assume that the acsent rate
 %is constant, so I will assume that the acsent rate at launch is constant
-area = pi*(BV./pi*3/4).^(2/3);
+area = pi*(BV./pi*3/4).^(2/3) + payloadmass_kg*.18; %drag area of balloon plus payload factor, derived from payload mass
 Speed = [5;5]; %m/s second starting value for interative process
-for n = 1:10;
+for n = 1:10
     Re = pAir.*Speed.*(BV./pi.*0.75).^(1/3)./(1.85e-5);
     Cd = 24./Re + (2.6*(Re./5))./(1+(Re./5).^1.52) + (.411*(Re./263000).^-7.94)./(1+(Re./263000).^-8.00) + (Re.^0.80)./461000;
     Speed = sqrt((2*(liftdelta))./(pAir.*area.*Cd));
