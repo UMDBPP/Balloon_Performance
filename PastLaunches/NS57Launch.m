@@ -1,4 +1,4 @@
-%Burst at 102,800ft
+sum%Burst at 102,800ft
 %Using a 3000g balloon 
 %Diameter: 11.50 meters approx.
 clear all
