@@ -63,6 +63,10 @@ KHMZ
 Unicom: 122.7
 AWOS: 123.675 (814-623-2936)
 
+Five Lakes Airport
+
+AWOS: 301-745-3497
+
 Local Data is measurements taken on-site with on-site equipment. The 
 pressure reading must be absolute/station pressure, not adjusted to be sea
 level pressure. Weather apps do usually give sea level pressure, so do not

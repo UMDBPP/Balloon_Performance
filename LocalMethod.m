@@ -1,8 +1,8 @@
 %Uses Local On-Site Measurements
 %The function expects a Data vector that contains the following information
 %1 [Launch Altitude;
-%2  Local Tempurature; (F)
-%3  Local Dew Point; (F)
+%2  Local Tempurature; (C)
+%3  Local Dew Point; (C)
 %4  Local Pressure; (mbar)
 %5  Balloon Temperature; (F) 
 %6  Weight (lbs)
@@ -21,11 +21,11 @@
 %Depedencies:
 % StandAtmo1976, CustomStandAtmo1976, MoistDensity
 
-function [lift alt Speed liftdelta] = LocalMethod(Data,Dburst,mass)
+function [lift, alt, Speed, liftdelta] = LocalMethod(Data,Dburst,mass)
 %% Input Conversion Layer
 LaunchAlt_m = Data(1); %expected in meters, no conversion nessisary
-Temp_K = (Data(2)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
-Dewpoint_K = (Data(3)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
+Temp_K = (Data(2))+273.15; %expecting Fahrenheit, converting to Kelvin
+Dewpoint_K = (Data(3))+273.15; %expecting Fahrenheit, converting to Kelvin
 Pressure_Pa = Data(4)*100; %expecting milibars, converted to Pascals
 BT_K = (Data(5)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
 payloadmass_kg = Data(6); %expecting kg no converting needed
@@ -34,14 +34,16 @@ payloadmass_kg = Data(6); %expecting kg no converting needed
 
 mass_kg = mass; %expecting kg, no conversion nessisary
 %% Math Layer
-[A1, T1, P1, D1] = StandAtmo1976(0,288.15,101325); %Standard table
+[A1, T1, P1, ~] = StandAtmo1976(0,288.15,101325); %Standard table
+%If the density table is needed, use D1
 PdT1 = P1./T1;
-[A2, T2, P2, D2] = CustomStandAtmo1976(LaunchAlt_m,Temp_K,Dewpoint_K,Pressure_Pa);
+[A2, T2, P2, ~] = CustomStandAtmo1976(LaunchAlt_m,Temp_K,Dewpoint_K,Pressure_Pa);
+%If the density table is needed, use D2
 PdT2 = P2./T2;
 g0 = 9.80665; %m/s^2
 MolarHelium = 4.002602;
 MolarAir = 28.9645;
-MolarWater = 18.01528;
+%MolarWater = 18.01528;
 Rbar = 8314.4598;
 
 weight_N = payloadmass_kg*g0;
@@ -86,14 +88,16 @@ for n = 1:length(Vburst)
 end
 
 liftdelta = lift-weight_N;
+
 %A lot of other preditiction programs seems to assume that the acsent rate
 %is constant, so I will assume that the acsent rate at launch is constant
-area = pi*(BV./pi*3/4).^(2/3) + payloadmass_kg*.18; %drag area of balloon plus payload factor, derived from payload mass
-Speed = [3;3]; %m/s second starting value for interative process
+Speed = [5;5]; %m/s second starting value for interative process
+hamburgerFactor = 0.4; %Balloon flattens in flow, increaseing area
 for n = 1:10
+    area = (pi*(BV./pi*3/4).^(2/3)) .* hamburgerFactor .* Speed; %drag area of balloon
     Re = pAir.*Speed.*(BV./pi.*0.75).^(1/3)./(1.85e-5);
     Cd = 24./Re + (2.6*(Re./5))./(1+(Re./5).^1.52) + (.411*(Re./263000).^-7.94)./(1+(Re./263000).^-8.00) + (Re.^0.80)./461000;
-    Speed = sqrt((2*(liftdelta))./(pAir.*area.*Cd));
+    Speed = sqrt((2*(liftdelta))./(pAir.*((area.*Cd)+((.09*weight_N/g0)*1.05))));
 end
 
 %% Output Conversion Layer

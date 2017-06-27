@@ -20,7 +20,7 @@
 %Depedencies:
 % StandAtmo1976, CustomStandAtmo1976, MoistDensity
 
-function [lift alt Speed liftdelta] = AWOSMethod(Data,Dburst,mass)
+function [lift, alt, Speed, liftdelta] = AWOSMethod(Data,Dburst,mass)
 %% Input Conversion Layer
 LaunchAlt_m = Data(1); %expected in meters, no conversion nessisary
 Temp_K = Data(2)+273.15; %expecting Celcius, converting to Kelvin
@@ -33,7 +33,8 @@ payloadmass_kg = Data(6); %expecting kg, no converting needed
 
 mass_kg = mass; %expecting kg, no conversion nessisary
 %% Math Layer
-[A1, T1, P1, D1] =StandAtmo1976(0,288.15,101325); %Standard table
+[A1, T1, P1, ~] =StandAtmo1976(0,288.15,101325); %Standard table
+%If the density table is needed, use D1
 PdT1 = P1./T1;
 
 % I am at LaunchAlt elevation and the AWOS pressure reading is Pressure
@@ -42,12 +43,13 @@ PdT1 = P1./T1;
 altadjust_m = interp1(P1,A1,Pressure_Pa);
 PressureAt_Pa(1,1) = interp1(A1,P1,(LaunchAlt_m+altadjust_m));
 
-[A2, T2, P2, D2] = CustomStandAtmo1976(LaunchAlt_m,Temp_K,Dewpoint_K,PressureAt_Pa(1,1)); %Built from ASOS Data
+[A2, T2, P2, ~] = CustomStandAtmo1976(LaunchAlt_m,Temp_K,Dewpoint_K,PressureAt_Pa(1,1)); %Built from ASOS Data
+%If the density table is needed, use D2
 PdT2 = P2./T2;
 g0 = 9.80665;
 MolarHelium = 4.002602;
 MolarAir = 28.9645;
-MolarWater = 18.01528;
+%MolarWater = 18.01528;
 Rbar = 8314.4598;
 
 weight_N = payloadmass_kg*g0;
@@ -77,6 +79,7 @@ lift = BV.*(pAir-pHe)*g0;
 %     SA = 4*pi*((3*V)/(4*pi))^(2/3);
 %     BalloonTemp(i+1) = (sigma*emis*(BalloonTemp(i)^4-Tair^4)*SA*25/(mass*SpHe))-BalloonTemp(i);
 % end
+%PdT
 
 Vburst = 4/3*pi*(Dburst/2).^3;
 AltBurst_m = zeros(length(Vburst),2); %pre alocating for speed
@@ -93,14 +96,16 @@ end
 
 
 liftdelta = lift-weight_N;
+
 %A lot of other preditiction programs seems to assume that the acsent rate
 %is constant, so I will assume that the acsent rate at launch is constant
-area = pi*(BV./pi*3/4).^(2/3) + payloadmass_kg*.18; %drag area of balloon plus payload factor, derived from payload mass;
-Speed = [3;3]; %m/s second starting value for interative process
+Speed = [5;5]; %m/s second starting value for interative process
+hamburgerFactor = 0.4; %Balloon flattens in flow, increaseing area
 for n = 1:10
+    area = (pi*(BV./pi*3/4).^(2/3)) .* hamburgerFactor .* Speed; %drag area of balloon
     Re = pAir.*Speed.*(BV./pi.*0.75).^(1/3)./(1.85e-5);
     Cd = 24./Re + (2.6*(Re./5))./(1+(Re./5).^1.52) + (.411*(Re./263000).^-7.94)./(1+(Re./263000).^-8.00) + (Re.^0.80)./461000;
-    Speed = sqrt((2*(liftdelta))./(pAir.*area.*Cd));
+    Speed = sqrt((2*(liftdelta))./(pAir.*((area.*Cd)+((.09*weight_N/g0)*1.05)))); %adding addtional drag area+Cd from payload mass
 end
 %% Output Conversion Layer
 lift = lift*0.22480894244; %converting the newtons of lift to pounds
@@ -108,6 +113,6 @@ alt_ft = AltBurst_m*3.280839895; %converting altitude in meters to feet
 %speed = speed %no conversion needed
 liftdelta = liftdelta*0.22480894244; %converting the newtons to pounds
 %% Output Additions
-alt = [alt_ft AltBurst_m];
+alt = [alt_ft AltBurst_m]; 
 
 end
