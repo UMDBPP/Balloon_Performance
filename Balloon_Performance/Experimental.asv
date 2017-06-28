@@ -1,0 +1,7 @@
+payloads(1).name = 'Balloon';
+payloads(1).mass = 3.000;
+
+payloads(2).name = 'Parachute';
+payloads(2).mass = .8981;
+
+balloon.payload(1).name = 
