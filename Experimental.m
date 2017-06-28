@@ -11,4 +11,6 @@ balloon.payload(1).mass = .7938;
 balloon.payload(2).name = 'VIRDE';
 balloon.payload(2).mass = .2948;
 
+balloonlaunch
+
 payloadstring(1)
