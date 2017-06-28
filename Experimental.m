@@ -8,3 +8,7 @@ balloon.mass = 3.000;
 balloon.flight = 'NS-65';
 balloon.payload(1).name = 'Helios';
 balloon.payload(1).mass = .7938;
+balloon.payload(2).name = 'VIRDE';
+balloon.payload(2).mass = .2948;
+
+payloadstring(1)
