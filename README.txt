@@ -1,5 +1,8 @@
 README for BalloonGUI3
 
+GUI is built for a 1920x1080 screen, if your resolution is different, this
+may require edits to the postion definition in hs.fig
+
 The program generates a GUI for balloon perfomance calculations.
 The program requires additional functions that are called. The 
 dependency is as follows:
@@ -85,8 +88,6 @@ Helium Mass and Payload Mass are in kilograms
 Payload Mass needs to include the mass of the balloon, parachute, command 
 module, and all payloads.
 DuctTapeFactor is dimentionless
-
-
 
 All wieghts and lifts in the output is given in pounds.
 Payload Weight is given in pounds.

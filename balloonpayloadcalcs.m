@@ -112,18 +112,24 @@ plot(Diameter,LocalBurst(:,1),'b')
 plot(Diameter,AWOSBurst(:,2),'g')
 plot(Diameter,LocalBurst(:,2),'k')
 legend('AWOS Standard','Local Standard','AWOS Method','Local Method','Location','Southeast')
+ax1 = gca;
+ftLim = ax1.YLim;
+yyaxis right
+ax2 = gca;
+ylabel 'meters'
+set(ax2, 'YLim', ftLim./3.280839895);
 hold off
 
-axes
-hold on
-grid on 
-title 'Burst Diameter vs. Burst Altitude in meters'
-xlabel 'meters'
-ylabel 'meters'
-plot(Diameter,AWOSBurst(:,3),'r')
-plot(Diameter,LocalBurst(:,3),'b')
-plot(Diameter,AWOSBurst(:,4),'g')
-plot(Diameter,LocalBurst(:,4),'k')
-legend('AWOS Standard','Local Standard','AWOS Method','Local Method','Location','Southeast')
-hold off
+% axes
+% hold on
+% grid on 
+% %title 'Burst Diameter vs. Burst Altitude in meters'
+% xlabel 'meters'
+% ylabel 'meters'
+% plot(Diameter,AWOSBurst(:,3),'r')
+% plot(Diameter,LocalBurst(:,3),'b')
+% plot(Diameter,AWOSBurst(:,4),'g')
+% plot(Diameter,LocalBurst(:,4),'k')
+% legend('AWOS Standard','Local Standard','AWOS Method','Local Method','Location','Southeast')
+% hold off
 end
