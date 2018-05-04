@@ -5,11 +5,11 @@
 %pounds(force only) = lb, newtons = N 
 function newNumber = unitconverter(number,oldUnit,newUnit)
 %%distance
-if oldUnit == 'm' && newUnit == 'ft'
+if oldUnit == 'm' && strcmp(newUnit,'ft')
     newNumber = number./0.3048;
 end
 
-if oldUnit == 'ft' && newUnit == 'm'
+if strcmp(oldUnit,'ft') && newUnit == 'm'
     newNumber = number.*0.3048;
 end
 
@@ -55,20 +55,20 @@ if oldUnit == 'R'
 end
 
 %% Pressure
-if oldUnit == 'Pa' && newUnit == 'psi'
+if strcmp(oldUnit,'Pa') && strcmp(newUnit,'psi')
     newNumber = number/6894.75728;
 end
 
-if oldUnit == 'psi' && newUnit == 'Pa'
+if strcmp(oldUnit,'psi') && strcmp(newUnit,'Pa')
     newNumber = number*6894.75728;
 end
 
 %% Force
-if oldUnit == 'lb' && newUnit == 'N'
+if strcmp(oldUnit,'lb') && newUnit == 'N'
     newNumber = number.*4.4482216;
 end
 
-if oldUnit =='N' && newUnit == 'lb'
+if oldUnit =='N' && strcmp(newUnit,'lb')
     newNumber = number./4.4482216;
 end
 
@@ -81,4 +81,3 @@ elseif exist('newNumber','var') == 1
 end
 %end of function
 end
-

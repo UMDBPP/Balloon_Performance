@@ -994,14 +994,13 @@ function BalloonGUI3()
 
     function oldloadbutton(~,~,hs)
         %function for loading data
-        current_dir = pwd;
+         current_dir = pwd;
         directory = uigetdir(pwd);
         cd(directory);
         FileName = uigetfile({'*.txt';'*.m';'*.*'},'File Selector');
         File = fopen(FileName,'r');
         FileData = fscanf(File,'%f\n',[1 Inf]);
         fclose(File);
-        cd(current_dir);
         
         if (length(FileData) == 22)
         %Building data sets

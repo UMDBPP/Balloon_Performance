@@ -1,15 +1,15 @@
-%Calculates the mass of the Helium from a K sized tank
+%Calculates the mass of the Helium from a tank
 %PressureTankStart (PTS) in PSI
 %PressureTankEnd (PTE) in PSI
 %TempuratureTankStart (TTS) in Fahrenheit
 %TempuratureTankEnd (TTE) in Fahrenheit
+%V is the internal volume of the tank in cubic meters. 
 %All internal Caluclations in SI units
-%Accepts Vector input for all values, must be same lenght
-
-function Mass_kg = HeliumMassCalc(PTS,PTE,TTS,TTE)
+%Accepts Vector input for all values, must be same length
+%300 Tanks are 48.99, airgas says 49.8, use the more conservative option
+function Mass_kg = HeliumMassCalc(PTS,PTE,TTS,TTE,VolumeTank)
 
 %Constants
-VolumeTank = 48.99/1000; %Liters to Cubic meters Air gas says 49.8
 M = 4.002602;
 Rbar = 8314.4598;
 

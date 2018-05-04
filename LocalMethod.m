@@ -15,8 +15,8 @@
 % launch altitude and a vector of altitudes corrisponding to burst diameter
 % And ascent rate in meters per second
 % the speed is predicted ascent rate at launch altitiude.
-% Lift, Speed, and DeltaLift give the "Standard" Value First, Followed by
-% the "Custom" Value
+% Lift, Speed, and DeltaLift give a Moist Air Value First, Followed by
+% Dry Air Value
 %
 %Depedencies:
 % StandAtmo1976, CustomStandAtmo1976, MoistDensity
@@ -102,11 +102,8 @@ end
 
 %% Output Conversion Layer
 lift = lift*0.22480894244; %converting the newtons of lift to pounds
-AltBurst_ft = AltBurst_m*3.280839895; %converting altitude in meters to feet
+alt = AltBurst_m; %outputing altitude in meters
 %speed = speed %no conversion needed
 liftdelta = liftdelta*0.22480894244; %converting the newtons to pounds
-
-%% Output Additions
-alt = [AltBurst_ft AltBurst_m];
 
 end 
