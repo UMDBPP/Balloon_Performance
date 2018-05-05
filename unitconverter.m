@@ -5,7 +5,7 @@
 %pounds(force only) = lb, newtons = N 
 function newNumber = unitconverter(number,oldUnit,newUnit)
 %%distance
-if oldUnit == 'm' && strcmp(newUnit,'ft')
+if strcmp(oldUnit,'m') && strcmp(newUnit,'ft')
     newNumber = number./0.3048;
 end
 
@@ -68,7 +68,7 @@ if strcmp(oldUnit,'lb') && newUnit == 'N'
     newNumber = number.*4.4482216;
 end
 
-if oldUnit =='N' && strcmp(newUnit,'lb')
+if strcmp(oldUnit,'N') && strcmp(newUnit,'lb')
     newNumber = number./4.4482216;
 end
 
