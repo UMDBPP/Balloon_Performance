@@ -17,7 +17,7 @@ R = 8314.459848; %SI R value 8314.459848 for modern data
 stepalt=100; %step size for the tables. 
 
 if isnumeric(Dew)
-Density = MoistDensity(Temp,Dew,Pressure);
+Density = MoistDensity(Temp,Dew,Pressure,'DP');
 else
 Density = 1.225;
 end

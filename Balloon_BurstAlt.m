@@ -1,5 +1,5 @@
 %Returns an Altitude based on a 
-function AltBurst_m = Balloon_DiaBurstAlt(DBurst)
+function AltBurst_m = Balloon_BurstAlt(DBurst)
 
 Vburst = 4/3*pi*(Dburst/2).^3;
 AltBurst_m = zeros(length(Vburst),2); %pre alocating for speed
