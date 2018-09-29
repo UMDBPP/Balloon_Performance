@@ -51,7 +51,7 @@ weight_N = payloadmass_kg*g0;
 %lift calculation
 pHe = (Pressure_Pa.*MolarHelium)./(BT_K.*Rbar); %M for He and R value
 %pAir(1,1) = interp1(A1,D1,DensityAlt_m); %Density Altitude uses humidity, which is best
-pAir(1,1) = MoistDensity(Temp_K,Dewpoint_K,Pressure_Pa);
+pAir(1,1) = MoistDensity(Temp_K,Dewpoint_K,Pressure_Pa,'DP');
 pAir(2,1) = Pressure_Pa*MolarAir/( Temp_K*Rbar); %from Conditions
 
 Pressure_Pa = [Pressure_Pa;Pressure_Pa];
