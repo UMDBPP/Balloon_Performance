@@ -7,6 +7,7 @@
 %The calculate button runs indepedently to calculate the mass
 %
 %AWOS Data is from an airport's Automated Weather Observing Station, 
+
 %
 %Local Data is measurements taken on-site with on-site equipment. The 
 %pressure reading must be absolute/station pressure, not adjusted to be sea
