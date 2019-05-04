@@ -38,7 +38,7 @@ function BalloonGUI3()
         % create figure
         hs.fig = figure(...
         'Units','characters',...
-        'Position',[0 -2 170 60],... %position =[left bottom width height] edit this line to fit on screen
+        'Position',[3.0 13.0 170 55.5],... %position =[left bottom width height] edit this line to fit on screen
         'Visible','on',...
         'Color',get(0,'defaultfigureColor'),...
         'IntegerHandle','off',...
@@ -719,41 +719,22 @@ function BalloonGUI3()
          );
 
         appdata = [];
-        appdata.lastValidTag = 'Tank1';
+        appdata.lastValidTag = 'Tanks';
         appdata.PropertyMetaData = {  {  'DataPropertyDimension' 'DataPropertyConditionedDimension' 'DataPropertySource' 'BackgroundColorPropertyDimension' 'ColumnNameTyped' 'RowNameTyped' } {  [] [] 'DataExisting' [] {  'Tank 1 Start' 'Tank 1 End' } {  'Pressure' 'Temperature' } } };
 
-        hs.Tank1Table = uitable(...
+        hs.TankTable = uitable(...
         'Parent',hs.TankMassCalcPanel,...
         'Units','characters',...
         'BackgroundColor',[1 1 1;0.96078431372549 0.96078431372549 0.96078431372549],...
-        'ColumnName',{  'Tank 1 Start'; 'Tank 1 End' },...
-        'ColumnWidth',{  'auto' 'auto' },...
-        'RowName',{  'Pressure'; 'Temperature' },...
-        'Position',[3.8 9 55.2 4.7],...
-        'ColumnEditable',[true true],...
-        'ColumnFormat',{  [] [] },...
-        'Data',[2500 100;70 60],...
+        'ColumnName',{  'PSI Start'; 'PSI End' ; '°F Start' ; '°F End' ; 'use' },...
+        'ColumnWidth',{  50 50 50 50 25},...
+        'RowName',{  'Tank1'; 'Tank2' ; 'Tank3' ; 'Tank4' },...
+        'Position',[.5 4 61 9],...
+        'ColumnEditable',true,...
+        'ColumnFormat',{[] [] [] [] []},...
+        'Data',{2500, 100, 70, 60, true; 2500, 100, 70, 60, true; 2500, 100, 70, 60, true; 2500, 100, 70, 60, true},...
         'Children',[],...
-        'Tag','Tank1',...
-        'UserData',[]...
-         );
-
-        appdata = [];
-        appdata.lastValidTag = 'Tank2';
-        appdata.PropertyMetaData = {  {  'DataPropertyDimension' 'DataPropertyConditionedDimension' 'DataPropertySource' 'BackgroundColorPropertyDimension' 'ColumnNameTyped' 'RowNameTyped' } {  [] [] 'DataExisting' [] {  'Tank 2 Start' 'Tank 2 End' } {  'Pressure' 'Temperature' } } };
-
-        hs.Tank2Table = uitable(...
-        'Parent',hs.TankMassCalcPanel,...
-        'Units','characters',...
-        'ColumnName',{  'Tank 2 Start'; 'Tank 2 End' },...
-        'ColumnWidth',{  'auto' 'auto' },...
-        'RowName',{  'Pressure'; 'Temperature' },...
-        'Position',[3.8 4 55.2 4.7],...
-        'ColumnEditable',[true true],...
-        'ColumnFormat',{  [] [] },...
-        'Data',[2500 100;70 60],...
-        'Children',[],...
-        'Tag','Tank2',...
+        'Tag','Tanks',...
         'UserData',[]...
          );
 
@@ -946,13 +927,14 @@ function BalloonGUI3()
 
     function [HeliumTankMass] = HeliumTankCalc_Callback(~,~,hs)
     % performs helium tank calculations
-        Tank1 = get(hs.Tank1Table,'data');
-        Tank2 = get(hs.Tank2Table,'data');
-        %Tank3 = get(hs.Tank2Table,'data');
-        TankMass1 = HeliumMassCalc(Tank1(1,1),Tank1(1,2),Tank1(2,1),Tank1(2,2),48.99/1000);
-        TankMass2 = HeliumMassCalc(Tank2(1,1),Tank2(1,2),Tank2(2,1),Tank2(2,2),48.99/1000);
-        %TankMass3 = HeliumMassCalc(Tank3(1,1),Tank3(1,2),Tank3(2,1),Tank3(2,2),48.99/1000);
-        HeliumTankMass = TankMass1 + TankMass2; % + TankMass3;
+        Tanks = get(hs.TankTable,'data');
+        use = cell2mat(Tanks(:,5));
+        Tanks = cell2mat(Tanks(:,1:4));
+        TankMass1 = HeliumMassCalc(Tanks(1,1),Tanks(1,2),Tanks(1,3),Tanks(1,4),48.99/1000);
+        TankMass2 = HeliumMassCalc(Tanks(2,1),Tanks(2,2),Tanks(2,3),Tanks(2,4),48.99/1000);
+        TankMass3 = HeliumMassCalc(Tanks(3,1),Tanks(3,2),Tanks(3,3),Tanks(3,4),48.99/1000);
+        TankMass4 = HeliumMassCalc(Tanks(4,1),Tanks(4,2),Tanks(4,3),Tanks(4,4),48.99/1000);
+        HeliumTankMass = TankMass1*use(1) + TankMass2*use(2) + TankMass3*use(3) + TankMass4*use(4);
         set(hs.TankMassValueLabel, 'String', HeliumTankMass )
     end
 
@@ -986,11 +968,10 @@ function BalloonGUI3()
         WeatherData = get(hs.WeatherDataTable, 'Data');
         PlotData = get(hs.DiameterPlotTable, 'Data');
         LaunchData = get(hs.LaunchDataTable, 'Data');
-        Tank1 = get(hs.Tank1Table,'Data');
-        Tank2 = get(hs.Tank2Table,'Data');
+        Tanks = get(hs.TankTable,'Data');
         
         %Building the data to save
-        FileData = [WeatherData(:,1); WeatherData(:,2); PlotData; LaunchData; Tank1(:,1); Tank1(:,2); Tank2(:,1); Tank2(:,2)];
+        FileData = [WeatherData(:,1); WeatherData(:,2); PlotData; LaunchData; Tanks(:,1); Tanks(:,2); Tanks(:,3); Tanks(:,4)];
        
         File = fopen(FileName,'wt');
         for n = 1:length(FileData)
@@ -1015,15 +996,13 @@ function BalloonGUI3()
         WeatherData = [FileData(1:3)', FileData(4:6)' ];
         PlotData = FileData(7:9)';
         LaunchData = FileData(10:14)';
-        Tank1 = [FileData(15:16)', FileData(17:18)'];
-        Tank2 = [FileData(19:20)', FileData(21:22)'];
+        Tanks = [FileData(15:16)', FileData(17:18)'; FileData(19:20)', FileData(21:22)'];
         
         %Loading into GUI
         set(hs.WeatherDataTable,'Data', WeatherData)
         set(hs.DiameterPlotTable,'Data', PlotData)
         set(hs.LaunchDataTable,'Data', LaunchData)
-        set(hs.Tank1Table,'Data',Tank1)
-        set(hs.Tank2Table,'Data',Tank2)
+        set(hs.TankTable,'Data',Tanks)
         set(hs.NameData,'Data',{FileName,'201X-XX-XX'})
         
         else
@@ -1040,10 +1019,9 @@ function BalloonGUI3()
         LaunchData = hs.LaunchDataTable.Data;
         NameData = hs.NameData.Data;
         PayloadTable = hs.PayloadTable.Data;
-        Tank1Data = hs.Tank1Table.Data;
-        Tank2Data = hs.Tank2Table.Data;
+        TankData = hs.TankTable.Data;
         %Above variables are used by the save function in the next line
-        save(FileName,'FileName','WeatherData','PlotData','LaunchData','NameData','PayloadTable','Tank1Data','Tank2Data');
+        save(FileName,'FileName','WeatherData','PlotData','LaunchData','NameData','PayloadTable','TankData');
         cd(current_dir);
     end
 
@@ -1053,15 +1031,14 @@ function BalloonGUI3()
         directory = uigetdir(pwd);
         cd(directory);
         FileName = uigetfile({'*.mat';'*.m';'*.*'},'File Selector');
-        load(FileName,'WeatherData','PlotData','LaunchData','NameData','PayloadTable','Tank1Data','Tank2Data');
+        load(FileName,'WeatherData','PlotData','LaunchData','NameData','PayloadTable','TankData');
         cd(current_dir);
         hs.WeatherDataTable.Data = WeatherData ;
         hs.DiameterPlotTable.Data = PlotData;
         hs.LaunchDataTable.Data =  LaunchData;
         hs.NameData.Data = NameData;
         hs.PayloadTable.Data = PayloadTable;
-        hs.Tank1Table.Data = Tank1Data;
-        hs.Tank2Table.Data = Tank2Data;
+        hs.TankTable.Data = TankData;
     end
 
 
