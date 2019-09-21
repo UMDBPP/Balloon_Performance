@@ -21,7 +21,7 @@
 %HeliumMassCalc, AWOSMethod, LocalMethod
 %   and by extention:
 % MoistDensity, StandAtmo1976, CustomStandAtmo1976
-function BalloonGUI3()
+function BalloonGUI4()
 %Base Program provided by Steve Lente
 %Modified By Michael Walker
 
