@@ -10,8 +10,8 @@
 function Mass_kg = HeliumMassCalc(PTS,PTE,TTS,TTE,VolumeTank)
 
 %Constants
-M = 4.002602;
-Rbar = 8314.4598;
+M = 4.002602/1000;% kg/mol
+Rbar = 8.31446261815324; %m^3*Pa/(K*mol)
 
 %% Input Converstion Layer
 
