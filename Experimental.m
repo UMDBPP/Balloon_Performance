@@ -5,4 +5,7 @@ He(3) = HeliumMassCalc(440,0100,75.02,68.54,48.99/1000); %300L Tank
 
 molarFrac = [0 1 0 0 0 0];
 R_He = RCalc(molarFrac);
-GasMassCalc((60-32)*5/9,14.696,8.297,R_He)
+start1 = GasMassCalc((55.6-32)*5/9,2500,48.99/1000,R_He)
+end1 = GasMassCalc((55.6-32)*5/9,100,48.99/1000,R_He)
+start2 = GasMassCalc((55.6-32)*5/9,2500,48.99/1000,R_He)
+end2 = GasMassCalc((55.6-32)*5/9,2500,48.99/1000,R_He)
