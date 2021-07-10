@@ -1,4 +1,8 @@
+%Calculates the lift of the balloon based on 
 function lift = Balloon_Lift()
+% constants
+g0 = 9.80665; %m/s^2
+
 %lift calculation AWOS
 pHe = (PressureAt_Pa.*MolarHelium)./(BT_K.*Rbar); %M for He and R value
 pAir(1,1) = MoistDensity(Temp_K,Dewpoint_K,PressureAt_Pa,"DP");
