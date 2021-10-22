@@ -1014,22 +1014,14 @@ function BalloonGUI4()
         directory = uigetdir(pwd);
         cd(directory);
         FileName = uigetfile({'*.mat';'*.m';'*.*'},'File Selector'); 
-        load(FileName,'WeatherData','PlotData','LaunchData','NameData','PayloadTable','TankData','Tank1Data','Tank2Data'); 
-        %Used top be TankData, needs to be able to grab Tank1Data and Tank2Data for backwards compatability  
-        %Could be changed back once data is all consistant
+        load(FileName,'WeatherData','PlotData','LaunchData','NameData','PayloadTable','TankData'); 
         cd(current_dir);
         hs.WeatherDataTable.Data = WeatherData ;
         hs.DiameterPlotTable.Data = PlotData;
         hs.LaunchDataTable.Data =  LaunchData;
         hs.NameData.Data = NameData;
         hs.PayloadTable.Data = PayloadTable;
-        if exist('TankData','var')
-            hs.TankTable.Data = TankData;
-        elseif exist('Tank1Data','var')&&exist('Tank2Data','var')
-            TankData = {Tank1Data(1,1), Tank1Data(1,2), Tank1Data(2,1), Tank1Data(2,2), true; Tank2Data(1,1), Tank2Data(1,2), Tank2Data(2,1), Tank2Data(2,2), true; 2500, 100, 15, 5, true; 2500, 100, 15, 5, true};
-            hs.TankTable.Data = TankData;
-        end
-        
+        hs.TankTable.Data = TankData;
     end
     
 
