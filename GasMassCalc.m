@@ -1,6 +1,6 @@
 %Calculates the mass of a gas based on Ideal Gas law
 %Uses Temperature, Pressure, Volume, and individual R value for the gas 
-%Units are PSI, Celcius, Liters, and m^3*Pa/(K*kg)
+%Units are PSI, Celsius, Liters, and m^3*Pa/(K*kg)
 function Mass_kg = GasMassCalc(R_ind,Volume,Pressure,Temp)
 
 %Constants

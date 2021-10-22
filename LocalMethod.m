@@ -4,7 +4,7 @@
 %2  Local Tempurature; (C)
 %3  Local Dew Point; (C)
 %4  Local Pressure; (mbar)
-%5  Balloon Temperature; (F) 
+%5  Balloon Temperature; (C) 
 %6  Weight (lbs)
 %  
 % The next input is a vector for burst diameter in meters
@@ -27,7 +27,7 @@ LaunchAlt_m = Data(1); %expected in meters, no conversion nessisary
 Temp_K = (Data(2))+273.15; %expecting Fahrenheit, converting to Kelvin
 Dewpoint_K = (Data(3))+273.15; %expecting Fahrenheit, converting to Kelvin
 Pressure_Pa = Data(4)*100; %expecting milibars, converted to Pascals
-BT_K = (Data(5)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
+BT_K = Data(5)+273.15; %expecting Celsius, converting to Kelvin
 payloadmass_kg = Data(6); %expecting kg no converting needed
 
 %Dburst = Dburst; %expected in meters, no conversion nessisary

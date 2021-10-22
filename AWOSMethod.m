@@ -4,7 +4,7 @@
 %2  AWOS Tempurature; (C)
 %3  AWOS Dew Point; (C)
 %4  AWOS Pressure; (inHg)
-%5  Balloon Temperature; (F)
+%5  Balloon Temperature; (C)
 %6  Payload Mass (kg)
 %  
 % The next input is a vector for burst diameter in meters (Dburst)
@@ -26,7 +26,7 @@ LaunchAlt_m = Data(1); %expected in meters, no conversion nessisary
 Temp_K = Data(2)+273.15; %expecting Celcius, converting to Kelvin
 Dewpoint_K = Data(3)+273.15;
 Pressure_Pa = Data(4)*3386.3886667; %expecting inches of mercury, converted to Pascals
-BT_K = (Data(5)-32)*5/9+273.15; %expecting Fahrenheit, converting to Kelvin
+BT_K = Data(5)+273.15; %expecting Celsius, converting to Kelvin
 payloadmass_kg = Data(6); %expecting kg, no converting needed
 
 %Dburst = Dburst; %expected in meters, no conversion nessisary
